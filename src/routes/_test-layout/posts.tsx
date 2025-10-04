@@ -6,11 +6,11 @@ import { Badge } from '../../components/ui/badge'
 import { Spinner } from '../../components/ui/spinner'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/_default-layout/posts')({
-    component: DefaultPosts,
+export const Route = createFileRoute('/_test-layout/posts')({
+    component: Posts,
 })
 
-function DefaultPosts() {
+function Posts() {
     const [page, setPage] = useState(1)
     const pageSize = 10
 

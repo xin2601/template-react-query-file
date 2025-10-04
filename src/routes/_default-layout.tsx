@@ -23,12 +23,6 @@ function DefaultLayoutComponent() {
         >
           首页
         </Link>
-        <Link
-          to="/posts"
-          className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          文章管理
-        </Link>
       </div>
       <Outlet />
     </>
