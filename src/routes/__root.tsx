@@ -14,9 +14,11 @@ export const Route = createRootRouteWithContext<{
   component: RootComponent,
   notFoundComponent: () => {
     return (
-      <div>
-        <p>This is the notFoundComponent configured on root route</p>
-        <Link to="/">Start Over</Link>
+      <div className="p-8 text-center">
+        <h2 className="text-2xl font-bold mb-4">页面未找到</h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          抱歉，您访问的页面不存在。
+        </p>
       </div>
     )
   },
@@ -26,40 +28,7 @@ function RootComponent() {
   return (
     <>
       <div className="p-2 flex gap-2 text-lg">
-        <Link
-          to="/"
-          activeProps={{
-            className: 'font-bold',
-          }}
-          activeOptions={{ exact: true }}
-        >
-          Home
-        </Link>{' '}
-        <Link
-          to="/posts"
-          activeProps={{
-            className: 'font-bold',
-          }}
-        >
-          Posts
-        </Link>{' '}
-        <Link
-          to="/route-a"
-          activeProps={{
-            className: 'font-bold',
-          }}
-        >
-          Pathless Layout
-        </Link>{' '}
-        <Link
-          // @ts-expect-error
-          to="/this-route-does-not-exist"
-          activeProps={{
-            className: 'font-bold',
-          }}
-        >
-          This Route Does Not Exist
-        </Link>
+        导航链接将在这里添加
       </div>
       <hr />
       <Outlet />
