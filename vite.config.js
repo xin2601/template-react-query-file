@@ -8,4 +8,14 @@ export default defineConfig({
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),
   ],
+  // 禁用开发环境的 PWA
+  define: {
+    __PWA_ENABLED__: false,
+  },
+  server: {
+    // 确保开发服务器不启用 PWA 相关功能
+    headers: {
+      'Service-Worker-Allowed': '/',
+    },
+  },
 })
