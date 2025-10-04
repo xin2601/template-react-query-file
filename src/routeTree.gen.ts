@@ -9,12 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PostsRouteImport } from './routes/posts'
+import { Route as DefaultLayoutRouteImport } from './routes/_default-layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DefaultLayoutPostsRouteImport } from './routes/_default-layout/posts'
+import { Route as DefaultLayoutHomeRouteImport } from './routes/_default-layout/home'
 
-const PostsRoute = PostsRouteImport.update({
-  id: '/posts',
-  path: '/posts',
+const DefaultLayoutRoute = DefaultLayoutRouteImport.update({
+  id: '/_default-layout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +23,59 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DefaultLayoutPostsRoute = DefaultLayoutPostsRouteImport.update({
+  id: '/posts',
+  path: '/posts',
+  getParentRoute: () => DefaultLayoutRoute,
+} as any)
+const DefaultLayoutHomeRoute = DefaultLayoutHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => DefaultLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/posts': typeof PostsRoute
+  '/home': typeof DefaultLayoutHomeRoute
+  '/posts': typeof DefaultLayoutPostsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/posts': typeof PostsRoute
+  '/home': typeof DefaultLayoutHomeRoute
+  '/posts': typeof DefaultLayoutPostsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/posts': typeof PostsRoute
+  '/_default-layout': typeof DefaultLayoutRouteWithChildren
+  '/_default-layout/home': typeof DefaultLayoutHomeRoute
+  '/_default-layout/posts': typeof DefaultLayoutPostsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts'
+  fullPaths: '/' | '/home' | '/posts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts'
-  id: '__root__' | '/' | '/posts'
+  to: '/' | '/home' | '/posts'
+  id:
+    | '__root__'
+    | '/'
+    | '/_default-layout'
+    | '/_default-layout/home'
+    | '/_default-layout/posts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PostsRoute: typeof PostsRoute
+  DefaultLayoutRoute: typeof DefaultLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsRouteImport
+    '/_default-layout': {
+      id: '/_default-layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof DefaultLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +85,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_default-layout/posts': {
+      id: '/_default-layout/posts'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof DefaultLayoutPostsRouteImport
+      parentRoute: typeof DefaultLayoutRoute
+    }
+    '/_default-layout/home': {
+      id: '/_default-layout/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof DefaultLayoutHomeRouteImport
+      parentRoute: typeof DefaultLayoutRoute
+    }
   }
 }
 
+interface DefaultLayoutRouteChildren {
+  DefaultLayoutHomeRoute: typeof DefaultLayoutHomeRoute
+  DefaultLayoutPostsRoute: typeof DefaultLayoutPostsRoute
+}
+
+const DefaultLayoutRouteChildren: DefaultLayoutRouteChildren = {
+  DefaultLayoutHomeRoute: DefaultLayoutHomeRoute,
+  DefaultLayoutPostsRoute: DefaultLayoutPostsRoute,
+}
+
+const DefaultLayoutRouteWithChildren = DefaultLayoutRoute._addFileChildren(
+  DefaultLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PostsRoute: PostsRoute,
+  DefaultLayoutRoute: DefaultLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
