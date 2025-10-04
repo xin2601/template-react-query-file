@@ -27,20 +27,6 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <>
-      {/* <div className="p-4 flex gap-4 text-lg border-b bg-gray-50 dark:bg-gray-900">
-        <Link
-          to="/"
-          className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          首页
-        </Link>
-        <Link
-          to="/posts"
-          className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          文章管理
-        </Link>
-      </div> */}
       <Outlet />
       <ReactQueryDevtools buttonPosition="top-right" />
       <TanStackRouterDevtools position="bottom-right" />

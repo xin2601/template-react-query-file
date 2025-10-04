@@ -9,11 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestLayoutRouteImport } from './routes/_test-layout'
 import { Route as DefaultLayoutRouteImport } from './routes/_default-layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TestLayoutTestPostsRouteImport } from './routes/_test-layout/test-posts'
+import { Route as TestLayoutTestHomeRouteImport } from './routes/_test-layout/test-home'
 import { Route as DefaultLayoutPostsRouteImport } from './routes/_default-layout/posts'
 import { Route as DefaultLayoutHomeRouteImport } from './routes/_default-layout/home'
 
+const TestLayoutRoute = TestLayoutRouteImport.update({
+  id: '/_test-layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DefaultLayoutRoute = DefaultLayoutRouteImport.update({
   id: '/_default-layout',
   getParentRoute: () => rootRouteImport,
@@ -22,6 +29,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const TestLayoutTestPostsRoute = TestLayoutTestPostsRouteImport.update({
+  id: '/test-posts',
+  path: '/test-posts',
+  getParentRoute: () => TestLayoutRoute,
+} as any)
+const TestLayoutTestHomeRoute = TestLayoutTestHomeRouteImport.update({
+  id: '/test-home',
+  path: '/test-home',
+  getParentRoute: () => TestLayoutRoute,
 } as any)
 const DefaultLayoutPostsRoute = DefaultLayoutPostsRouteImport.update({
   id: '/posts',
@@ -38,39 +55,57 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof DefaultLayoutHomeRoute
   '/posts': typeof DefaultLayoutPostsRoute
+  '/test-home': typeof TestLayoutTestHomeRoute
+  '/test-posts': typeof TestLayoutTestPostsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home': typeof DefaultLayoutHomeRoute
   '/posts': typeof DefaultLayoutPostsRoute
+  '/test-home': typeof TestLayoutTestHomeRoute
+  '/test-posts': typeof TestLayoutTestPostsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_default-layout': typeof DefaultLayoutRouteWithChildren
+  '/_test-layout': typeof TestLayoutRouteWithChildren
   '/_default-layout/home': typeof DefaultLayoutHomeRoute
   '/_default-layout/posts': typeof DefaultLayoutPostsRoute
+  '/_test-layout/test-home': typeof TestLayoutTestHomeRoute
+  '/_test-layout/test-posts': typeof TestLayoutTestPostsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home' | '/posts'
+  fullPaths: '/' | '/home' | '/posts' | '/test-home' | '/test-posts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/posts'
+  to: '/' | '/home' | '/posts' | '/test-home' | '/test-posts'
   id:
     | '__root__'
     | '/'
     | '/_default-layout'
+    | '/_test-layout'
     | '/_default-layout/home'
     | '/_default-layout/posts'
+    | '/_test-layout/test-home'
+    | '/_test-layout/test-posts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DefaultLayoutRoute: typeof DefaultLayoutRouteWithChildren
+  TestLayoutRoute: typeof TestLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_test-layout': {
+      id: '/_test-layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof TestLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_default-layout': {
       id: '/_default-layout'
       path: ''
@@ -84,6 +119,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_test-layout/test-posts': {
+      id: '/_test-layout/test-posts'
+      path: '/test-posts'
+      fullPath: '/test-posts'
+      preLoaderRoute: typeof TestLayoutTestPostsRouteImport
+      parentRoute: typeof TestLayoutRoute
+    }
+    '/_test-layout/test-home': {
+      id: '/_test-layout/test-home'
+      path: '/test-home'
+      fullPath: '/test-home'
+      preLoaderRoute: typeof TestLayoutTestHomeRouteImport
+      parentRoute: typeof TestLayoutRoute
     }
     '/_default-layout/posts': {
       id: '/_default-layout/posts'
@@ -116,9 +165,24 @@ const DefaultLayoutRouteWithChildren = DefaultLayoutRoute._addFileChildren(
   DefaultLayoutRouteChildren,
 )
 
+interface TestLayoutRouteChildren {
+  TestLayoutTestHomeRoute: typeof TestLayoutTestHomeRoute
+  TestLayoutTestPostsRoute: typeof TestLayoutTestPostsRoute
+}
+
+const TestLayoutRouteChildren: TestLayoutRouteChildren = {
+  TestLayoutTestHomeRoute: TestLayoutTestHomeRoute,
+  TestLayoutTestPostsRoute: TestLayoutTestPostsRoute,
+}
+
+const TestLayoutRouteWithChildren = TestLayoutRoute._addFileChildren(
+  TestLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DefaultLayoutRoute: DefaultLayoutRouteWithChildren,
+  TestLayoutRoute: TestLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

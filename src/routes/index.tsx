@@ -32,7 +32,7 @@ function Index() {
                             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                                 适用于生产环境的正式布局，包含完整的功能和专业的界面设计。
                             </p>
-                            <Link to="/default-layout/home">
+                            <Link to="/home">
                                 <Button className="w-full">进入默认Layout</Button>
                             </Link>
                         </CardContent>
@@ -50,7 +50,7 @@ function Index() {
                             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                                 专门用于开发和测试的环境，包含调试工具和测试功能。
                             </p>
-                            <Link to="/test-layout/home">
+                            <Link to="/test-home">
                                 <Button className="w-full bg-yellow-600 hover:bg-yellow-700">
                                     进入测试Layout
                                 </Button>
