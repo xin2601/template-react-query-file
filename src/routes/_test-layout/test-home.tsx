@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
+import { ZustandDemo } from '../../components/zustand-demo'
 
 export const Route = createFileRoute('/_test-layout/test-home')({
     component: TestHome,
@@ -12,10 +13,10 @@ function TestHome() {
             <div className="max-w-6xl mx-auto space-y-8">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">
-                        🧪 测试环境 - HTTP 集成演示应用
+                        🧪 测试环境 - 全栈集成演示应用
                     </h1>
                     <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                        基于 TanStack Router + React Query + redaxios 的完整 HTTP 解决方案
+                        基于 TanStack Router + React Query + Zustand + redaxios 的完整解决方案
                     </p>
                     <div className="bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg p-4 mb-8">
                         <p className="text-yellow-800 dark:text-yellow-200">
@@ -61,11 +62,11 @@ function TestHome() {
 
                     <Card>
                         <CardHeader className="pb-3">
-                            <CardTitle className="text-lg">🎨 Tailwind CSS</CardTitle>
+                            <CardTitle className="text-lg">🐻 Zustand</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm text-gray-600 dark:text-gray-300">
-                                实用优先的 CSS 框架，快速构建现代化的用户界面。
+                                轻量级状态管理库，提供简洁的 API 和强大的功能。
                             </p>
                         </CardContent>
                     </Card>
@@ -201,6 +202,14 @@ function TestHome() {
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* Zustand 演示 */}
+                <div>
+                    <h2 className="text-2xl font-bold mb-4 text-center">
+                        🐻 Zustand 状态管理演示
+                    </h2>
+                    <ZustandDemo />
+                </div>
             </div>
         </div>
     )
