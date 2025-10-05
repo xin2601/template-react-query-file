@@ -7,6 +7,7 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
+import { useTheme } from '../store'
 
 // 判断是否为开发环境
 const isDevelopment = !import.meta.env.PROD
@@ -28,6 +29,18 @@ export const Route = createRootRouteWithContext<{
 })
 
 function RootComponent() {
+  const { actualTheme } = useTheme()
+
+  // 应用主题到 DOM
+  React.useEffect(() => {
+    const root = document.documentElement
+    if (actualTheme === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+  }, [actualTheme])
+
   return (
     <>
       <Outlet />

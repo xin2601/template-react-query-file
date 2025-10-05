@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_test-layout')({
 function Header() {
   const { isAuthenticated } = useAuth()
   const { user } = useUserProfile()
-  const { actualTheme } = useTheme()
+  const { actualTheme, toggleTheme } = useTheme()
   const { unreadCount } = useNotifications()
 
   return (
@@ -43,6 +43,15 @@ function Header() {
       </div>
 
       <div className="flex items-center gap-2">
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-md hover:bg-yellow-100 dark:hover:bg-yellow-800/30 transition-colors"
+          title={`切换到${actualTheme === 'dark' ? '明亮' : '暗色'}主题`}
+        >
+          <span className="text-xl">
+            {actualTheme === 'dark' ? '☀️' : '🌙'}
+          </span>
+        </button>
         {unreadCount > 0 && (
           <Badge variant="destructive" className="text-xs">
             {unreadCount} 通知
