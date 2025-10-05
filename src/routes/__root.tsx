@@ -8,6 +8,9 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 
+// 判断是否为开发环境
+const isDevelopment = !import.meta.env.PROD
+
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
@@ -28,8 +31,12 @@ function RootComponent() {
   return (
     <>
       <Outlet />
-      <ReactQueryDevtools buttonPosition="bottom-left" />
-      <TanStackRouterDevtools position="bottom-right" />
+      {isDevelopment && (
+        <>
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <TanStackRouterDevtools position="bottom-right" />
+        </>
+      )}
     </>
   )
 }
