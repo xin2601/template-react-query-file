@@ -8,14 +8,16 @@
 
 - **[AI_RULES.md](AI_RULES.md)** - 📋 **必读** - AI 开发规则和代码规范
 - **[docs/SHADCN_UI_GUIDE.md](docs/SHADCN_UI_GUIDE.md)** - 🎨 UI 组件库详细使用指南
+- **[docs/ZUSTAND_GUIDE.md](docs/ZUSTAND_GUIDE.md)** - 🐻 状态管理库详细使用指南
 
-这些文档包含了项目的开发规范、代码风格、组件使用方法和最佳实践，将帮助您更好地理解项目结构并生成符合项目标准的代码。
+这些文档包含了项目的开发规范、代码风格、组件使用方法、状态管理最佳实践，将帮助您更好地理解项目结构并生成符合项目标准的代码。
 
 ## ✨ 特性
 
 - 🚀 **React 19** - 最新的 React 版本
 - 🛣️ **TanStack Router** - 类型安全的文件路由系统
 - 🔄 **TanStack React Query** - 强大的数据获取和状态管理
+- 🐻 **Zustand** - 轻量级的客户端状态管理
 - 🎨 **shadcn/ui** - 现代化的 UI 组件库
 - 💎 **TypeScript** - 完整的类型安全支持
 - 🎯 **Tailwind CSS** - 实用优先的 CSS 框架
@@ -33,6 +35,7 @@
 ### 路由和状态管理
 - **TanStack Router** - 文件路由系统，支持类型安全的路由参数
 - **TanStack React Query** - 服务器状态管理和数据获取
+- **Zustand** - 轻量级的客户端状态管理库
 
 ### UI 和样式
 - **shadcn/ui** - 基于 Radix UI 的组件库
@@ -108,6 +111,12 @@ pnpm serve
 │   │   ├── index.tsx       # 首页
 │   │   ├── posts/          # 文章相关路由
 │   │   └── _pathlessLayout/ # 无路径布局示例
+│   ├── store/              # Zustand 状态管理
+│   │   ├── index.ts        # Store 统一导出
+│   │   ├── app-store.ts    # 应用全局状态
+│   │   ├── theme-store.ts  # 主题管理
+│   │   ├── user-store.ts   # 用户状态管理
+│   │   └── hooks.ts        # 自定义状态 Hooks
 │   ├── main.tsx            # 应用入口
 │   ├── routeTree.gen.ts    # 自动生成的路由树
 │   └── styles.css          # 全局样式
@@ -157,6 +166,41 @@ export const postsQueryOptions = () =>
 const { data: posts, isLoading } = useQuery(postsQueryOptions())
 ```
 
+### 状态管理
+
+使用 Zustand 进行客户端状态管理：
+
+```typescript
+// 使用预定义的状态 hooks
+import { useAuth, useTheme, useNotifications } from '@/store'
+
+export function UserProfile() {
+  const { isAuthenticated, login, logout } = useAuth()
+  const { theme, toggleTheme } = useTheme()
+  const { showSuccess } = useNotifications()
+
+  const handleLogin = () => {
+    login({
+      id: '1',
+      name: '用户名',
+      email: 'user@example.com'
+    })
+    showSuccess('登录成功', '欢迎回来！')
+  }
+
+  return (
+    <div>
+      <button onClick={toggleTheme}>切换主题: {theme}</button>
+      {isAuthenticated ? (
+        <button onClick={logout}>退出登录</button>
+      ) : (
+        <button onClick={handleLogin}>登录</button>
+      )}
+    </div>
+  )
+}
+```
+
 ### UI 组件
 
 项目集成了完整的 shadcn/ui 组件库：
@@ -183,6 +227,7 @@ export function ExampleCard() {
 
 - **[AI 开发规则](AI_RULES.md)** - AI 辅助开发的规范和最佳实践
 - **[shadcn/ui 使用指南](docs/SHADCN_UI_GUIDE.md)** - 组件库详细使用说明
+- **[Zustand 状态管理指南](docs/ZUSTAND_GUIDE.md)** - 状态管理库详细使用说明
 
 ## 🔧 开发指南
 

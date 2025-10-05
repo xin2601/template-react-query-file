@@ -22,6 +22,7 @@
 
 - **[API使用文档](docs/API_USAGE.md)** - 详细的API使用指南，包括HTTP客户端、服务层、React Query集成等
 - **[shadcn/ui使用指南](docs/SHADCN_UI_GUIDE.md)** - UI组件库的详细使用说明
+- **[Zustand状态管理指南](docs/ZUSTAND_GUIDE.md)** - 状态管理库的详细使用说明
 
 ## AI开发规则
 
